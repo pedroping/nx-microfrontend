@@ -2,12 +2,16 @@
   "name": "@nx-microfrontend/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nx serve shell --devRemotes=mfe1",
+    "build": "nx build shell"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~19.2.0",
     "@angular/compiler": "~19.2.0",
     "@angular/core": "~19.2.0",
+    "@angular/animations": "~19.2.0",
     "@angular/forms": "~19.2.0",
     "@angular/platform-browser": "~19.2.0",
     "@angular/platform-browser-dynamic": "~19.2.0",
