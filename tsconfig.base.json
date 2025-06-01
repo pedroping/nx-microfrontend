@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@nx-microfrontend/custom-lib": ["custom-lib/src/index.ts"],
-      "mfe1/Routes": ["apps/mfe1/src/app/remote-entry/entry.routes.ts"]
+      "mfe1/Routes": ["apps/mfe1/src/app/remote-entry/entry.routes.ts"],
+      "mfe1/Test": ["apps/mfe1/src/app/test/test.component.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
