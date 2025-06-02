@@ -3,6 +3,7 @@ import {
   inject,
   OnInit,
   ProviderToken,
+  Type,
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -11,7 +12,6 @@ import {
   TEST_SERVICE_INJECTOR,
   TestServiceService,
 } from '@nx-microfrontend/custom-lib';
-
 @Component({
   imports: [RouterModule],
   selector: 'app-root',
@@ -24,15 +24,27 @@ export class AppComponent implements OnInit {
     TEST_SERVICE_INJECTOR as unknown as ProviderToken<TestServiceService>
   );
   private vcr = viewChild('vcr', { read: ViewContainerRef });
+  title = 'shell';
 
   ngOnInit(): void {
     this.testServiceService.event$.next('Test');
     this.testServiceService.event$.subscribe((a) => console.log(a));
 
-    import('mfe1/Test').then((a) => {
-      this.vcr()?.createComponent(a.TestComponent);
+    this.getComponent(() => import('mfe1/Test')).then((a) => {
+      if (a) this.vcr()?.createComponent(a);
     });
   }
 
-  title = 'shell';
+  async getComponent<T>(
+    importFn: () => Promise<T>
+  ): Promise<Type<T> | undefined> {
+    try {
+      const result = await importFn();
+      const componentKey = Object.keys(result ?? {})[0];
+      return result[componentKey as keyof typeof result] as Type<T>;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
+  }
 }
