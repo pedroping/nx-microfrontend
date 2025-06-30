@@ -1,5 +1,6 @@
 import {
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   inject,
   OnInit,
   ProviderToken,
@@ -12,16 +13,18 @@ import {
   TEST_SERVICE_INJECTOR,
   TestServiceService,
 } from '@nx-microfrontend/custom-lib';
+import { TestComponent } from 'mfe1/Test';
 @Component({
-  imports: [RouterModule],
+  imports: [RouterModule, TestComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [{ provide: TEST_SERVICE_INJECTOR, useClass: TestServiceService }],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent implements OnInit {
   private readonly testServiceService = inject(
-    TEST_SERVICE_INJECTOR as unknown as ProviderToken<TestServiceService>
+    TEST_SERVICE_INJECTOR as unknown as ProviderToken<TestServiceService>,
   );
   private vcr = viewChild('vcr', { read: ViewContainerRef });
   title = 'shell';
@@ -36,7 +39,7 @@ export class AppComponent implements OnInit {
   }
 
   async getComponent<T>(
-    importFn: () => Promise<T>
+    importFn: () => Promise<T>,
   ): Promise<Type<T> | undefined> {
     try {
       const result = await importFn();

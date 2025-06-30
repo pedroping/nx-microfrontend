@@ -24,6 +24,7 @@ export default [
           style: 'kebab-case',
         },
       ],
+      '@nx/enforce-module-boundaries': 'off',
     },
   },
   {
