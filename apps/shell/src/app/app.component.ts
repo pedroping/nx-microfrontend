@@ -14,6 +14,8 @@ import {
   TestServiceService,
 } from '@nx-microfrontend/custom-lib';
 import { TestComponent } from 'mfe1/Test';
+import { environment } from '../environments/environment.development';
+
 @Component({
   imports: [RouterModule, TestComponent],
   selector: 'app-root',
@@ -32,10 +34,20 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.testServiceService.event$.next('Test');
     this.testServiceService.event$.subscribe((a) => console.log(a));
-
+    this.createScript();
     this.getComponent(() => import('mfe1/Test')).then((a) => {
       if (a) this.vcr()?.createComponent(a);
     });
+  }
+
+  private createScript() {
+    const script = document.createElement('script');
+    script.onload = () => {
+      console.log('Load');
+    };
+
+    script.src = environment.popUpInfoWebUrl + '/main.js';
+    document.body.appendChild(script);
   }
 
   async getComponent<T>(
