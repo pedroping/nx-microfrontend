@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve shell --devRemotes=mfe1",
-    "build": "nx build shell"
+    "build": "nx build shell && nx build mfe1"
   },
   "private": true,
   "dependencies": {

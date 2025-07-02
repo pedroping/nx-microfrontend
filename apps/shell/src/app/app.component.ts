@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.testServiceService.event$.next('Test');
     this.testServiceService.event$.subscribe((a) => console.log(a));
-    this.createScript();
+    // this.createScript();
     this.getComponent(() => import('mfe1/Test')).then((a) => {
       if (a) this.vcr()?.createComponent(a);
     });

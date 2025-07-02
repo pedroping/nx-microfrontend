@@ -45,7 +45,9 @@
           "outputHashing": "all",
           "customWebpackConfig": {
             "path": "apps/mfe1/webpack.prod.config.ts"
-          }
+          },
+          "namedChunks": true,
+          "optimization": false
         },
         "development": {
           "buildOptimizer": false,

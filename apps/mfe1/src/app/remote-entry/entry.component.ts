@@ -5,11 +5,15 @@ import {
   TestServiceService,
 } from '@nx-microfrontend/custom-lib';
 import { NxWelcomeComponent } from './nx-welcome.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [CommonModule, NxWelcomeComponent],
+  imports: [CommonModule, NxWelcomeComponent, RouterLink],
   selector: 'app-mfe1-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  template: `
+    <app-nx-welcome></app-nx-welcome> 
+    <button routerLink="other-page">Change</button>
+  `,
 })
 export class RemoteEntryComponent implements OnInit {
   private readonly testServiceService = inject(
