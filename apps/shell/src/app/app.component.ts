@@ -3,15 +3,14 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   inject,
   OnInit,
-  ProviderToken,
   Type,
   viewChild,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  TEST_SERVICE_INJECTOR,
-  TestServiceService,
+  TEST_SERVICE_TOKEN,
+  TestServiceService
 } from '@nx-microfrontend/custom-lib';
 import { TestComponent } from 'mfe1/Test';
 import { environment } from '../environments/environment.development';
@@ -21,20 +20,18 @@ import { environment } from '../environments/environment.development';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [{ provide: TEST_SERVICE_INJECTOR, useClass: TestServiceService }],
+  providers: [{ provide: TEST_SERVICE_TOKEN, useClass: TestServiceService }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent implements OnInit {
-  private readonly testServiceService = inject(
-    TEST_SERVICE_INJECTOR as unknown as ProviderToken<TestServiceService>,
-  );
+  private readonly testServiceService = inject(TEST_SERVICE_TOKEN);
   private vcr = viewChild('vcr', { read: ViewContainerRef });
   title = 'shell';
 
   ngOnInit(): void {
     this.testServiceService.event$.next('Test');
     this.testServiceService.event$.subscribe((a) => console.log(a));
-    // this.createScript();
+    this.createScript();
     this.getComponent(() => import('mfe1/Test')).then((a) => {
       if (a) this.vcr()?.createComponent(a);
     });

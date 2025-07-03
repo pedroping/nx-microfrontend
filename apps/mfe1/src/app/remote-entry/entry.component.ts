@@ -1,24 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ProviderToken } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
-  TEST_SERVICE_INJECTOR,
-  TestServiceService,
+  TEST_SERVICE_TOKEN
 } from '@nx-microfrontend/custom-lib';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { RouterLink } from '@angular/router';
 
 @Component({
   imports: [CommonModule, NxWelcomeComponent, RouterLink],
   selector: 'app-mfe1-entry',
   template: `
-    <app-nx-welcome></app-nx-welcome> 
+    <app-nx-welcome></app-nx-welcome>
     <button routerLink="other-page">Change</button>
   `,
 })
 export class RemoteEntryComponent implements OnInit {
-  private readonly testServiceService = inject(
-    TEST_SERVICE_INJECTOR as unknown as ProviderToken<TestServiceService>
-  );
+  private readonly testServiceService = inject(TEST_SERVICE_TOKEN);
   ngOnInit(): void {
     this.testServiceService.event$.subscribe((a) => console.log(a));
 
